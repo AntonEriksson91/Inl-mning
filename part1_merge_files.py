@@ -6,8 +6,6 @@ def get_value(key_value_str: str):
     """
     return key_value_str.partition('=')[2]
 
-    print("hej")
-
 def parse_log_file(log_file_path):
     """
     Takes a path to a log file containing purchaches in a store.
