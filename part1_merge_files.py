@@ -1,4 +1,5 @@
 import os
+import csv
 
 def get_value(key_value_str: str):
     """
@@ -16,20 +17,43 @@ def parse_log_file(log_file_path):
     file_name = os.path.split(log_file_path)[1]
     store_name = os.path.splitext(file_name)[0]
 
-    """
-    TODO
-    Öppna logfilen och gå igenom alla raderna:
-        Om raden startar med "sale," så ska innehållet läggas till i listan av köp.
-        Om raden startar med "canceled," så var det något som var fel med köpet, och köpet med samma id ska plockas bort från listan med köp.
+    with open(log_file_path) as store:
+        reader = csv.reader(store)
 
-    returnera en lista med en tupel för varje köp.
-        Varje tupel ska innehålla: (time, store_name, total_sek, member, age)
+        dict = {}
+        for line in reader:
+            if line[0] == "canceled":    
+                id = get_value(line[1])
+                
+                del dict[id]
+            else:
+                id = get_value(line[1])
+                time = get_value(line[2])
+                total_sek = get_value(line[3])
+                member = get_value(line[4])
+                birth_year = get_value(line[5])
+                age = 2022 - int(birth_year) if birth_year.isdigit() else "na"
 
-    Hint - Ignorera rader med "cancel" till att börja med om ni kör fast.
-    Hint - Använd dict för att hålla reda på kopplingen mellan köp-id för att hantera rader med "cancel"
-    Hint - "123".isdigit() kan användas för att se om en text kan göras om till int
-    Hint - get_value kan användas för att få ut värden från key=value
-    """
+                sales = (time, store_name, total_sek, member, age)
+
+                dict[id] = sales
+        print(dict)        
+
+parse_log_file("C:\\Users\\Ida\\OneDrive - Nackademin AB\\Business Intelligence-relaterade programspråk\\Inlämningsuppgift grupp\\Inl-mning\\stores\\store1.log")
+
+    # """
+    # Öppna logfilen och gå igenom alla raderna:
+    #     Om raden startar med "sale," så ska innehållet läggas till i listan av köp.
+    #     Om raden startar med "canceled," så var det något som var fel med köpet, och köpet med samma id ska plockas bort från listan med köp.
+
+    # returnera en lista med en tupel för varje köp.
+    #     Varje tupel ska innehålla: (time, store_name, total_sek, member, age)
+
+    # Hint - Ignorera rader med "cancel" till att börja med om ni kör fast.
+    # Hint - Använd dict för att hålla reda på kopplingen mellan köp-id för att hantera rader med "cancel"
+    # Hint - "123".isdigit() kan användas för att se om en text kan göras om till int
+    # Hint - get_value kan användas för att få ut värden från key=value
+    # """
 
 
 def write_csv_file(csv_file_path, entries):
