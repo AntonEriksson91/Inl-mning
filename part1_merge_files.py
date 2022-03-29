@@ -39,7 +39,9 @@ def parse_log_file(log_file_path):
                 dict[id] = sales
         print(dict)        
 
-parse_log_file("C:\\Users\\Ida\\OneDrive - Nackademin AB\\Business Intelligence-relaterade programspråk\\Inlämningsuppgift grupp\\Inl-mning\\stores\\store1.log")
+file_path = "C:\\Users\\Ida\\OneDrive - Nackademin AB\\Business Intelligence-relaterade programspråk\\Inlämningsuppgift grupp\\Inl-mning\\stores\\store1.log"
+
+parse_log_file(file_path)
 
     # """
     # Öppna logfilen och gå igenom alla raderna:
