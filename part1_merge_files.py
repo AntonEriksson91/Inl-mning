@@ -37,11 +37,14 @@ def parse_log_file(log_file_path):
                 sales = (time, store_name, total_sek, member, age)
 
                 dict[id] = sales
-        print(dict)        
+        
+        # print(dict)
+        return list(dict.values())   
 
-file_path = "C:\\Users\\Ida\\OneDrive - Nackademin AB\\Business Intelligence-relaterade programspråk\\Inlämningsuppgift grupp\\Inl-mning\\stores\\store1.log"
+# file_path = "C:\\Users\\Ida\\OneDrive - Nackademin AB\\Business Intelligence-relaterade programspråk\\Inlämningsuppgift grupp\\Inl-mning\\stores\\store1.log"
 
-parse_log_file(file_path)
+# # entry = parse_log_file(file_path)
+# parse_log_file(file_path)
 
     # """
     # Öppna logfilen och gå igenom alla raderna:
@@ -70,7 +73,13 @@ def write_csv_file(csv_file_path, entries):
     Skriv en header-rad med dessa kolumnnamn: 'time', 'store', 'total_sek', 'member', 'age'
     Skriv en rad för varje köp i listan entries.
     """
+    
+    header = ["time", "store", "total_sek", "member", "age"]
+    with open(csv_file_path, "w", newline="") as csv_file:
+        writer = csv.writer(csv_file)
 
+        writer.writerow(header)
+        writer.writerows(entries)    
 
 def merge_log_files_to_csv(log_dir, csv_file_path):
     """
@@ -78,17 +87,18 @@ def merge_log_files_to_csv(log_dir, csv_file_path):
     """
     
     all_entries = []
-    
+    a2 = []
     for file_name in os.listdir(log_dir):
         file_path = os.path.join(log_dir, file_name)
         if os.path.isfile(file_path) and file_name.endswith('.log'):
             # TODO Läs ut alla entries från logfilen file_path med parse_log_file och lägg till dem på all_entries
-            pass
-    
+            
+            all_entries = all_entries + parse_log_file(file_path)
+    all_entries.sort()
     # TODO Se till att raderna är sorterade på tid.
     # Hint: Med tidsformatet som används går det bra att sortera på textsträngar.
     # Hint: Listor med tupler sorteras på första elementet i tuplerna om inget annat anges.
-
+    write_csv_file(csv_file_path, all_entries)
     # TODO Skriv raderna till CSV-filen (csv_file_path) med funktionen write_csv_file
 
 
