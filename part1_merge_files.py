@@ -87,7 +87,7 @@ def merge_log_files_to_csv(log_dir, csv_file_path):
     """
     
     all_entries = []
-    a2 = []
+    
     for file_name in os.listdir(log_dir):
         file_path = os.path.join(log_dir, file_name)
         if os.path.isfile(file_path) and file_name.endswith('.log'):
