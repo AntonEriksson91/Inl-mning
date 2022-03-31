@@ -1,6 +1,9 @@
+from calendar import month
 from datetime import datetime as dt
+from itertools import count
 from time import time
 import statistics
+
 
 def sek_per_purchase(entries):
     print('\nMean sek sum per purchase:')
@@ -11,11 +14,37 @@ def sek_per_purchase(entries):
     Skriv ut genomsnittsbeloppet som betalades vid varje köp.
     """
     
-    print(f'{res:.2f} sek/purchase')
+    print(f'{res:.2f} sek/purchase\n')
 
 
 def member_vs_not_member_sum_per_moth(entries):
+    # Entries är en lista av dicts. 
+    # {"key=butiken":values=dict.{key=månad:values=[total summa, antal poster]}}
+    
+    stores = {"store1": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
+            "store2": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
+            "store3": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
+            "store4": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}}
 
+    for item in entries:
+        month = item["time"].month
+        store = item["store"]
+        value = item["total_sek"]
+
+        # Summan
+        stores[store][month][0] = stores[store][month][0] + value
+        # Antal poster
+        stores[store][month][1] = stores[store][month][1] + 1
+        
+    store_names = ['store1','store2','store3','store4']
+    month_numbers = [1,2,3,4,5,6]
+
+    for store in store_names:
+        for month in month_numbers:
+            mean = stores[store][month][0]/stores[store][month][1] if stores[store][month][1] != 0 else 0
+            print(f'For {store} and month {month} mean is {mean:.2f}')
+
+    
     """
     TODO
     Räkna ut och skriv ut genomsnittlig total försäljning per affär och månad.
@@ -25,6 +54,7 @@ def member_vs_not_member_sum_per_moth(entries):
     """
 
     #print('\nTotal sum per month and store:')
+    print(f'')
     #print(f'Members: {res_members:.2f} sek/month/store')
     #print(f'Not members: {res_not_members:.2f} sek/month/store')
 
@@ -58,6 +88,7 @@ def read_csv_file(csv_file_path):
                 row['age'] = None
 
             entries.append(row)
+        
         
     return entries
       
