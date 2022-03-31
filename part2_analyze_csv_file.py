@@ -1,14 +1,17 @@
 from datetime import datetime as dt
+from time import time
+import statistics
 
 def sek_per_purchase(entries):
     print('\nMean sek sum per purchase:')
 
+    res = statistics.mean(item['total_sek'] for item in entries)
     """
     TODO
     Skriv ut genomsnittsbeloppet som betalades vid varje köp.
     """
-
-    #print(f'{res:.2f} sek/purchase')
+    
+    print(f'{res:.2f} sek/purchase')
 
 
 def member_vs_not_member_sum_per_moth(entries):
@@ -55,8 +58,10 @@ def read_csv_file(csv_file_path):
                 row['age'] = None
 
             entries.append(row)
+        
     return entries
-
+      
+    
 if __name__ == '__main__':
     entries = read_csv_file('output/all-stores.csv')
     sek_per_purchase(entries)
