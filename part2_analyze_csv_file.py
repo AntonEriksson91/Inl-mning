@@ -32,9 +32,10 @@ def member_vs_not_member_sum_per_moth(entries):
         value = item["total_sek"]
 
         # Summan
-        stores[store][month][0] = stores[store][month][0] + value
+        stores[store][month][0] = stores[store][month][0] + value 
         # Antal poster
         stores[store][month][1] = stores[store][month][1] + 1
+    
         
     store_names = ['store1','store2','store3','store4']
     month_numbers = [1,2,3,4,5,6]
@@ -53,15 +54,35 @@ def member_vs_not_member_sum_per_moth(entries):
     Det är ok att hårdkoda in att tidsintervallet sträcker sig över 6 månader och det finns 4 affärer.
     """
 
-    #print('\nTotal sum per month and store:')
-    print(f'')
     #print(f'Members: {res_members:.2f} sek/month/store')
     #print(f'Not members: {res_not_members:.2f} sek/month/store')
 
 
 def members_mean_age_per_hour(entries):
     print('\nMean member customer age per open hour:')
-    
+
+    hours = {7:[0,0],8: [0,0],9: [0,0],10: [0,0],11: [0,0],12: [0,0],13: [0,0],14: [0,0],15: [0,0],16: [0,0],17:[0,0],18:[0,0],19:[0,0],20: [0,0],21: [0,0],22: [0,0]}
+
+    for item in entries:
+
+        member = item["member"]
+        hour = item["time"].hour
+        age = item["age"]
+        
+        
+        if member == True and 7 <= hour and hour <= 22 :
+                      
+            # Summan
+            hours[hour][0] = hours[hour][0] + age 
+            # Antal poster
+            hours[hour][1] = hours[hour][1] + 1
+
+    open_hours = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+
+    for h in open_hours:
+        mean = hours[h][0]/hours[h][1]
+        print(f'hour={h} mean_age={mean:.1f}')      
+        
     """
     TODO
     Affärerna är öppna mellan 7 och 22.
