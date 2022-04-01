@@ -8,6 +8,7 @@ import statistics
 def sek_per_purchase(entries):
     print('\nMean sek sum per purchase:')
 
+    # Räknar ut genomsnittet för samtliga rader i entries
     res = statistics.mean(item['total_sek'] for item in entries)
     """
     TODO
@@ -21,7 +22,7 @@ def member_vs_not_member_sum_per_moth(entries):
 
     # Entries är en lista av dicts.
     # Skapar en dict-dict-lista i syfte att kunna fylla på stores med mina värden.
-    # {"key=butiken":values=dict.{key=månad:values=[total summa, antal poster]}} 
+    # {"key=butiken":values=dict {key=månad:values=[total summa, antal poster]}} 
     stores = {"store1": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
             "store2": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
             "store3": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
@@ -33,10 +34,10 @@ def member_vs_not_member_sum_per_moth(entries):
         month = item["time"].month
         store = item["store"]
         value = item["total_sek"]
-
-        # Summan
+ 
+        # Adderar summan med nya värdet
         stores[store][month][0] = stores[store][month][0] + value 
-        # Antal poster
+        # Ökar antal poster med 1
         stores[store][month][1] = stores[store][month][1] + 1
     
     # Skapar två listor för att kunna gå igenom dessa värden i en loop i syfte att matcha keys mot values i dicts.     
@@ -67,15 +68,15 @@ def members_mean_age_per_hour(entries):
         # Kolla endast de rader som är en medlem och som handlat mellan 7-22
         if member == True and 7 <= hour and hour <= 22 :
                       
-            # Summan
+            # Adderar summan med nya värdet
             hours[hour][0] = hours[hour][0] + age 
-            # Antal poster
+            # Ökar antal poster med 1
             hours[hour][1] = hours[hour][1] + 1
 
-    # Skapar en lista för att kunna gå igenom dessa värden i en loop i syfte att matcha keys mot values i dicts.   
+    # Skapar en lista för att kunna gå igenom dessa värden i en loop i syfte att matcha keys mot values i dict.   
     open_hours = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
 
-    # Gå igenom listan open_hours och hämta värdena i list-delen på plats 0 och 1. Räkna ut genomsnittet genom dessa värden. 
+    # Gå igenom listan open_hours och hämta värdena i list-delen på plats 0 och 1. Räkna ut genomsnittet genom dessa värden. Totala summan / antal poster
     for h in open_hours:
         mean = hours[h][0]/hours[h][1]
         print(f'hour={h} mean_age={mean:.1f}')      
