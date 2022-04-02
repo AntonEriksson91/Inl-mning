@@ -21,12 +21,17 @@ def sek_per_purchase(entries):
 def member_vs_not_member_sum_per_moth(entries):
 
     # Entries är en lista av dicts.
-    # Skapar en dict-dict-lista i syfte att kunna fylla på stores med mina värden.
+    # Skapar två dict-dict-listor i syfte att kunna fylla på stores med mina värden. 
     # {"key=butiken":values=dict {key=månad:values=[total summa, antal poster]}} 
-    stores = {"store1": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
+    stores_members = {"store1": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
             "store2": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
             "store3": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
             "store4": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}}
+
+    stores_not_members = {"store1": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
+            "store2": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
+            "store3": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}, \
+            "store4": {1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0], 5:[0,0], 6:[0,0]}}    
 
     # Skapar en loop för att gå igenom varje rad i entries
     for item in entries:
@@ -34,12 +39,18 @@ def member_vs_not_member_sum_per_moth(entries):
         month = item["time"].month
         store = item["store"]
         value = item["total_sek"]
- 
-        # Adderar summan med nya värdet
-        stores[store][month][0] = stores[store][month][0] + value 
-        # Ökar antal poster med 1
-        stores[store][month][1] = stores[store][month][1] + 1
-    
+        member = item["member"]
+
+        if member == True:
+            # Adderar summan med nya värdet
+            stores_members[store][month][0] = stores_members[store][month][0] + value 
+            # Ökar antal poster med 1
+            stores_members[store][month][1] = stores_members[store][month][1] + 1
+        else:
+            stores_not_members[store][month][0] = stores_not_members[store][month][0] + value 
+            # Ökar antal poster med 1
+            stores_not_members[store][month][1] = stores_not_members[store][month][1] + 1
+
     # Skapar två listor för att kunna gå igenom dessa värden i en loop i syfte att matcha keys mot values i dicts.     
     store_names = ['store1','store2','store3','store4']
     month_numbers = [1,2,3,4,5,6]
@@ -48,8 +59,9 @@ def member_vs_not_member_sum_per_moth(entries):
     for s in store_names:
         for m in month_numbers:
             #Månad 6 har inga värden, därför behövs en if-sats.
-            mean = stores[s][m][0]/stores[s][m][1] if stores[s][m][1] != 0 else 0
-            print(f'For {s} and month {m} mean is {mean:.2f}')
+            mean_members = stores_members[s][m][0]/stores_members[s][m][1] if stores_members[s][m][1] != 0 else 0
+            mean_not_members = stores_not_members[s][m][0]/stores_not_members[s][m][1] if stores_not_members[s][m][1] != 0 else 0
+            print(f'For {s} and month {m} mean is {mean_members:.2f} for members and {mean_not_members:.2f} for not members')
 
 def members_mean_age_per_hour(entries):
     print('\nMean member customer age per open hour:')
